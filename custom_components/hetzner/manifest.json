@@ -1,0 +1,12 @@
+{
+  "domain": "hetzner",
+  "name": "Hetzner Storage Box",
+  "codeowners": ["@Dixet"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/Dixet/homeassistant_hetzner",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/Dixet/homeassistant_hetzner/issues",
+  "requirements": [],
+  "version": "0.0.1"
+}

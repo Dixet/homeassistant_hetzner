@@ -1,0 +1,30 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Hetzner Storage Box Configuration",
+        "description": "Set up Hetzner Storage Box integration to monitor your storage box.",
+        "data": {
+          "api_key": "API Key"
+        }
+      },
+      "storage_box": {
+        "title": "Select Storage Box",
+        "description": "Choose a storage box from your available storage boxes:",
+        "data": {
+          "select_storage_box": "Select a Storage Box"
+        }
+      }
+    },
+      "error": {
+      "api_key_required": "API key is required",
+      "storage_box_id_required": "Storage Box is required",
+      "no_storage_boxes": "No storage boxes found for this API key",
+      "invalid_selection": "Invalid storage box selection",
+      "invalid_api_key": "Invalid API key",
+      "connection_timeout": "Connection timeout",
+      "api_error": "API error",
+      "validation_error": "Validation error"
+    }
+  }
+}
