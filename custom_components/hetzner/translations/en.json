@@ -1,8 +1,19 @@
-
 {
   "config": {
     "abort": {
       "already_configured": "This storage box is already configured in Home Assistant."
+    },
+    "step": {
+      "user": {
+        "title": "Hetzner Storage Box",
+        "description": "Set up the Hetzner Storage Box integration to monitor your storage box.",
+        "data": {
+          "api_key": "API Key"
+        }
+      }
+    },
+    "error": {
+      "api_key_required": "API key is required"
     }
   }
 }
