@@ -24,7 +24,8 @@
       "invalid_api_key": "Invalid API key",
       "connection_timeout": "Connection timeout",
       "api_error": "API error",
-      "validation_error": "Validation error"
+      "validation_error": "Validation error",
+      "already_configured": "This storage box is already configured"
     }
   }
 }

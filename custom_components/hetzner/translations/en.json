@@ -1,0 +1,8 @@
+
+{
+  "config": {
+    "abort": {
+      "already_configured": "This storage box is already configured in Home Assistant."
+    }
+  }
+}

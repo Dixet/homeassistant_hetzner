@@ -1,5 +1,8 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "Deze Storage Box is al geconfigureerd in Home Assistant."
+    },
     "step": {
       "user": {
         "title": "Hetzner Storage Box",
@@ -11,19 +14,6 @@
     },
     "error": {
       "api_key_required": "API-sleutel is vereist"
-    }
-  },
-  "entity": {
-    "sensor": {
-      "energy_forecast": {
-        "name": "Energieprijs Prognose"
-      },
-      "highest_price": {
-        "name": "Hoogste energieprijs"
-      },
-      "lowest_price": {
-        "name": "Laagste energieprijs"
-      }
     }
   }
 }
