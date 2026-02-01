@@ -39,18 +39,44 @@ home-assistant/
 
 ### Obtaining an API Key
 
-To use this integration, you need an API key from Hetzner:
+To use this integration, you need an API key from Hetzner. 
+To obtain one, sign in into the Hetzner Console and choose a Project, go to Security → API Tokens, and generate a new token. Make sure to copy the token because it won’t be shown to you again. 
 
-
-## Example Output
-
-
-
-![Spotprice forecast](assets/spotprice-forecast.png)
 
 ## Sensors and Attributes
 
 The integration provides three main sensors:
+
+### sensor.storage_box_<boxname>
+- **State**: The current status of the storage box
+- **Attributes**:
+  - `ID`: The id of your storage box
+  - `username`: The username of the storage box owner
+  - `server`: FQDN of the Storage Box
+  - `system`: Host system of the Storage Box.
+  - `location`: Code for the physical location of the storage box 
+  - `storage_box_type`: Type of storage box (subscription type)
+  - `created`: When the storage box was first created
+
+### sensor.storage_box_<boxname>_total_size
+- **State**: The total size in bytes of the Storage box
+- **Unit**: bytes
+
+### sensor.storage_box_<boxname>_total_used
+- **State**: The total used size in bytes
+- **Unit**: bytes
+
+### sensor.storage_box_<boxname>_data_size
+- **State**: The size in bytes used for data 
+- **Unit**: bytes
+
+### sensor.storage_box_<boxname>_snapshot_size
+- **State**: The size in bytes used for snapshots 
+- **Unit**: bytes
+
+### sensor.storage_box_<boxname>_free_space
+- **State**: The available free space in your Storage box 
+- **Unit**: bytes
 
 
 ## Update Interval
