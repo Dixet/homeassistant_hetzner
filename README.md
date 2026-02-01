@@ -83,4 +83,4 @@ The integration provides three main sensors:
 
 ## Update Interval
 
-All sensors are automatically updated every hour to fetch the latest status of your Storage Box.
+All sensors are automatically updated every 10 minutes to fetch the latest status of your Storage Box.
