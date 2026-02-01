@@ -49,7 +49,7 @@ async def async_setup_entry(
         _LOGGER,
         name=f"{DOMAIN}_{storage_box_id}",
         update_method=async_update_data,
-        update_interval=timedelta(seconds=60),
+        update_interval=timedelta(seconds=600), # Refresh every 10 minutes  
     )
 
     # Do the first refresh so entities have data immediately
