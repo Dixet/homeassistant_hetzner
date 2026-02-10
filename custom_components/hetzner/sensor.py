@@ -15,6 +15,7 @@ from .const import DOMAIN, CONF_API_KEY, CONF_HOST, CONF_STORAGE_BOX_ID, DEFAULT
 
 _LOGGER = logging.getLogger(__name__)
 
+SCAN_INTERVAL = timedelta(seconds=600)  # update every 10 minutes
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -49,7 +50,7 @@ async def async_setup_entry(
         _LOGGER,
         name=f"{DOMAIN}_{storage_box_id}",
         update_method=async_update_data,
-        update_interval=timedelta(seconds=600), # Refresh every 10 minutes  
+        update_interval=SCAN_INTERVAL,
     )
 
     # Do the first refresh so entities have data immediately
