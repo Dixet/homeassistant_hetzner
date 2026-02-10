@@ -1,14 +1,16 @@
-# Hetzner Storage Box Integration for Home Assistant
+# Hetzner Storage Box Integration for Home Assistant  <img width="20%" align=right alt="Logo_Hetzner svg" src="https://github.com/user-attachments/assets/4e410d98-0222-430e-beb6-923fdf30d7bb" /> 
 
 ## Description
 **Hetzner Storage Box**  
+
 Home Assistant custom component that exposes storage metrics for your [Hetzner Storage Box](https://www.hetzner.com/storage/storage-box/) via the official JSON API.  
 Track **total, used, free, data and snapshot sizes** as native `bytes` sensors, plus a status sensor that shows the box state and enriches it with details such as location, type, creation date and server name.  
 Perfect for monitoring your off-site backup space and add it to dashboards, automations and long-term statistics.
 
 ## Installation
 
-### Manual Installation
+### Manual Installation!
+
 
 1. Download the `hetzner` custom component from this repository
 2. Navigate to your Home Assistant configuration directory
