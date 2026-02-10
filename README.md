@@ -42,7 +42,7 @@ home-assistant/
 ### Obtaining an API Key
 
 To use this integration, you need an API key from Hetzner. 
-To obtain one, sign in into the Hetzner Console and choose a Project, go to Security → API Tokens, and generate a new token. Make sure to copy the token because it won’t be shown to you again. 
+To obtain one, sign in into the [Hetzner Console](https://console.hetzner.com) and choose a Project, go to Security → API Tokens, and generate a new token. Make sure to copy the token because it won’t be shown to you again. 
 
 
 ## Sensors and Attributes
