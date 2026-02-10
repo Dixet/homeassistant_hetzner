@@ -9,6 +9,15 @@ Perfect for monitoring your off-site backup space and add it to dashboards, auto
 
 ## Installation
 
+### Installation through HACS
+The easiest way to install the Hetzer Storage Box integration is through HACS. This version of is not yet available in HACS by default and needs to be added as a custom repository.
+
+Add "Home Assistant Hetzner" repository - [https://github.com/hass-agent/HASS.Agent-Integration ](https://github.com/Dixet/homeassistant_hetzner) - as a custom HACS integration repository.
+
+Install "Hetzner Storage Box" from HACS (including restart), as you would with any other integration.
+
+Add Hetzner Storage Box integration via the Ui and follow the instructions
+
 ### Manual Installation!
 
 
