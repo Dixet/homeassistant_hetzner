@@ -1,4 +1,8 @@
-# Hetzner Storage Box Integration for Home Assistant  <img width="20%" align=right alt="Logo_Hetzner svg" src="https://github.com/user-attachments/assets/4e410d98-0222-430e-beb6-923fdf30d7bb" /> 
+<img width="100%" align=right alt="Logo_Hetzner svg" src="https://github.com/user-attachments/assets/4e410d98-0222-430e-beb6-923fdf30d7bb" />  
+&nbsp;
+
+# Hetzner Storage Box Integration for Home Assistant  
+
 
 ## Description
 **Hetzner Storage Box**  
