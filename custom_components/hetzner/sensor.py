@@ -56,9 +56,10 @@ async def async_setup_entry(
     # Do the first refresh so entities have data immediately
     await coordinator.async_config_entry_first_refresh()
 
-    # Create entities: status, total size, used size, data size, snapshot size, free space
+    # Create entities: status, location, total size, used size, data size, snapshot size, free space
     entities = [
         HetznerStatusSensor(coordinator, storage_box_id),
+        HetznerLocationSensor(coordinator, storage_box_id),
         HetznerSizeSensor(coordinator, storage_box_id, "total"),
         HetznerSizeSensor(coordinator, storage_box_id, "used"),
         HetznerSizeSensor(coordinator, storage_box_id, "data"),
@@ -98,16 +99,54 @@ class HetznerStatusSensor(CoordinatorEntity, SensorEntity):
     def extra_state_attributes(self) -> dict:
         data = self.coordinator.data or {}
         stats = data.get("stats") or {}
-        location = data.get("location") or {}
         s_type = data.get("storage_box_type") or {}
         return {
             "id": data.get("id"),
             "username": data.get("username"),
             "server": data.get("server"),
             "system": data.get("system"),
-            "location": location.get("name"),
             "storage_box_type": s_type.get("name"),
             "created": data.get("created"),
+        }
+
+
+class HetznerLocationSensor(CoordinatorEntity, SensorEntity):
+    """Sensor representing the storage box location."""
+
+    def __init__(self, coordinator: DataUpdateCoordinator, storage_box_id: str):
+        super().__init__(coordinator)
+        self._storage_box_id = storage_box_id
+        self._attr_unique_id = f"{DOMAIN}_storage_box_{self._storage_box_id}_location"
+
+    @property
+    def name(self) -> str:
+        data = self.coordinator.data or {}
+        box_name = data.get("name")
+        if box_name:
+            return f"Storage Box {box_name} Location"
+        return f"Storage Box {self._storage_box_id} Location"
+
+    @property
+    def icon(self) -> str:
+        return "mdi:map-marker"
+
+    @property
+    def state(self):
+        data = self.coordinator.data or {}
+        location = data.get("location") or {}
+        return location.get("name")
+
+    @property
+    def extra_state_attributes(self) -> dict:
+        data = self.coordinator.data or {}
+        location = data.get("location") or {}
+        return {
+            "id": location.get("id"),
+            "country": location.get("country"),
+            "city": location.get("city"),
+            "latitude": location.get("latitude"),
+            "longitude": location.get("longitude"),
+            "description": location.get("description"),
         }
 
 
