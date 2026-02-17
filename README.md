@@ -62,7 +62,7 @@ To obtain one, sign in into the [Hetzner Console](https://console.hetzner.com) a
 
 ## Sensors and Attributes
 
-The integration provides three main sensors:
+The integration provides the following sensors:
 
 ### sensor.storage_box_<boxname>
 - **State**: The current status of the storage box
@@ -95,6 +95,16 @@ The integration provides three main sensors:
 - **State**: The available free space in your Storage box 
 - **Unit**: bytes
 
+### sensor.storage_box_<boxname>_access_options
+- **State**: Number of access methods that are enabled (integer)
+- **Attributes**:
+  - `webdav_enabled`: boolean
+  - `zfs_enabled`: boolean
+  - `samba_enabled`: boolean
+  - `ssh_enabled`: boolean
+  - `reachable_externally`: boolean
+
+**Example:** with `samba_enabled`, `ssh_enabled`, `reachable_externally` set to `true`, the sensor state will be `3`.
 
 ## Update Interval
 

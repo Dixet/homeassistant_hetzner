@@ -56,10 +56,11 @@ async def async_setup_entry(
     # Do the first refresh so entities have data immediately
     await coordinator.async_config_entry_first_refresh()
 
-    # Create entities: status, location, total size, used size, data size, snapshot size, free space
+    # Create entities: status, location, access options, total size, used size, data size, snapshot size, free space
     entities = [
         HetznerStatusSensor(coordinator, storage_box_id),
         HetznerLocationSensor(coordinator, storage_box_id),
+        HetznerAccessOptionsSensor(coordinator, storage_box_id),
         HetznerSizeSensor(coordinator, storage_box_id, "total"),
         HetznerSizeSensor(coordinator, storage_box_id, "used"),
         HetznerSizeSensor(coordinator, storage_box_id, "data"),
@@ -209,3 +210,41 @@ class HetznerSizeSensor(CoordinatorEntity, SensorEntity):
         # free space (clamp to 0 to avoid negative values)
         free = max(0, (total or 0) - (data_size or 0) - (snapshots or 0))
         return free
+
+
+class HetznerAccessOptionsSensor(CoordinatorEntity, SensorEntity):
+    """Sensor that counts enabled access options and exposes each option as an attribute."""
+
+    def __init__(self, coordinator: DataUpdateCoordinator, storage_box_id: str):
+        super().__init__(coordinator)
+        self._storage_box_id = storage_box_id
+        self._attr_unique_id = f"{DOMAIN}_storage_box_{self._storage_box_id}_access_options"
+        self._attr_icon = "mdi:network"
+        # Expose as a numeric measurement (count of enabled access methods)
+        self._attr_state_class = SensorStateClass.MEASUREMENT
+
+    @property
+    def name(self) -> str:
+        data = self.coordinator.data or {}
+        box_name = data.get("name")
+        if box_name:
+            return f"Storage Box {box_name} Access Options"
+        return f"Storage Box {self._storage_box_id} Access Options"
+
+    @property
+    def state(self):
+        data = self.coordinator.data or {}
+        access = data.get("access_settings") or {}
+        # Count only values that are True
+        return sum(1 for v in access.values() if v is True)
+
+    @property
+    def extra_state_attributes(self) -> dict:
+        data = self.coordinator.data or {}
+        access = data.get("access_settings") or {}
+        # Mirror each access flag as an attribute and provide a convenience list
+        attrs = {}
+        for k, v in access.items():
+            attrs[k] = bool(v)
+
+        return attrs

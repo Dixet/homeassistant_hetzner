@@ -15,5 +15,12 @@
     "error": {
       "api_key_required": "API key is required"
     }
+  },
+  "entity": {
+    "sensor": {
+      "storage_box_access_options": {
+        "name": "Storage Box {name} Access Options"
+      }
+    }
   }
 }
