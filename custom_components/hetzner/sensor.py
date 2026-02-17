@@ -104,7 +104,6 @@ class HetznerStatusSensor(CoordinatorEntity, SensorEntity):
         return {
             "id": data.get("id"),
             "name": data.get("name"),
-            "description": data.get("description"),
             "username": data.get("username"),
             "server": data.get("server"),
             "system": data.get("system"),

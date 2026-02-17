@@ -68,10 +68,10 @@ The integration provides the following sensors:
 - **State**: The current status of the storage box
 - **Attributes**:
   - `ID`: The id of your storage box
+  - `name`: The name of your storage box
   - `username`: The username of the storage box owner
   - `server`: FQDN of the Storage Box
   - `system`: Host system of the Storage Box.
-  - `location`: Code for the physical location of the storage box 
   - `storage_box_type`: Type of storage box (subscription type)
   - `created`: When the storage box was first created
 
