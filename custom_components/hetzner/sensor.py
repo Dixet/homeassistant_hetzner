@@ -102,13 +102,14 @@ class HetznerStatusSensor(CoordinatorEntity, SensorEntity):
         s_type = data.get("storage_box_type") or {}
         return {
             "id": data.get("id"),
+            "name": data.get("name"),
+            "description": data.get("description"),
             "username": data.get("username"),
             "server": data.get("server"),
             "system": data.get("system"),
             "storage_box_type": s_type.get("name"),
             "created": data.get("created"),
         }
-
 
 class HetznerLocationSensor(CoordinatorEntity, SensorEntity):
     """Sensor representing the storage box location."""
