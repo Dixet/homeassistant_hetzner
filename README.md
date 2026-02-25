@@ -8,7 +8,7 @@
 **Hetzner Storage Box**  
 
 Home Assistant custom component that exposes storage metrics for your [Hetzner Storage Box](https://www.hetzner.com/storage/storage-box/) via the official JSON API.  
-Track **total, used, free, data and snapshot sizes** as native `bytes` sensors, plus a status sensor that shows the box state and enriches it with details such as location, type, creation date and server name.  
+Track **total, used, free, data and snapshot sizes** as native `bytes` sensors, plus a status sensor that shows the box state and enriches it with details such as type, creation date and server name.  Also a `location` sensor is available to show details of where your data is stored.
 Perfect for monitoring your off-site backup space and add it to dashboards, automations and long-term statistics.
 
 ## Installation
@@ -75,8 +75,18 @@ The integration provides the following sensors:
   - `storage_box_type`: Type of storage box (subscription type)
   - `created`: When the storage box was first created
 
-### sensor.storage_box_&lt;boxname&gt;_total_size
-- **State**: The total size in bytes of the Storage box
+### sensor.storage_box_&lt;boxname&gt;
+- **State**: The current status of the storage box
+- **Attributes**:
+  - `ID`: unique location identifier
+  - `Country`: Country where the data is stored
+  - `City`: City where the data is stored
+  - `Latitude`: Latitude of the location
+  - `Longitude`: Longitude  of the location
+  - `Description`: Full name of the location
+
+### sensor.storage_box_&lt;boxname&gt;_location
+- **State**: Location code for your storage box location
 - **Unit**: bytes
 
 ### sensor.storage_box_&lt;boxname&gt;_total_used
