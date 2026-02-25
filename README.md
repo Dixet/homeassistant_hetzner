@@ -2,7 +2,7 @@
 &nbsp;
 
 # Hetzner Storage Box Integration for Home Assistant  
-
+ 
 <!-- START doctoc -->
 <!-- END doctoc -->
 
