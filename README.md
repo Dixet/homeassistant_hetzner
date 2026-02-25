@@ -16,10 +16,9 @@ Perfect for monitoring your off-site backup space and add it to dashboards, auto
 ### Installation through HACS
 The easiest way to install the Hetzer Storage Box integration is through HACS. 
 
-1. Find the Hetzner Storage Box Integration in the Home Assistant Community Store
+1. Find the Hetzner Storage Box Integration in the Home Assistant Community Store [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Dixet&repository=homeassistant_hetzner&category=integration)
 2. Download the repository
 3. Restart Home Assistant
-4. Add the integration to Home Assistant
 
 ### Manual Installation!
 
@@ -46,7 +45,7 @@ home-assistant/
 ## Configuration
 
 ### Setup via Configuration Flow
-
+[![Start Config Flow](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start?domain=hetzner)
 1. In Home Assistant, navigate to **Settings** > **Devices & Services**
 2. Click **Add Integration** and search for "Hetzner" 
 3. Enter your API key when prompted
