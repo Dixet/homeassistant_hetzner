@@ -10,7 +10,7 @@
 - [Description](#description)
 - [Installation](#installation)
   - [Installation through HACS](#installation-through-hacs)
-  - [Manual Installation!](#manual-installation)
+  - [Manual Installation](#manual-installation)
 - [Configuration](#configuration)
   - [Setup via Configuration Flow](#setup-via-configuration-flow)
   - [Obtaining an API Key](#obtaining-an-api-key)
