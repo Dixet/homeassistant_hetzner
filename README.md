@@ -73,7 +73,7 @@ To obtain one, sign in into the [Hetzner Console](https://console.hetzner.com) a
 
 The integration provides the following sensors:
 
-### sensor.storage_box_&lt;boxname&gt;
+#### sensor.storage_box_&lt;boxname&gt;
 - **State**: The current status of the storage box
 - **Attributes**:
   - `ID`: The id of your storage box
@@ -84,7 +84,7 @@ The integration provides the following sensors:
   - `storage_box_type`: Type of storage box (subscription type)
   - `created`: When the storage box was first created
 
-### sensor.storage_box_&lt;boxname&gt;
+#### sensor.storage_box_&lt;boxname&gt;
 - **State**: The current status of the storage box
 - **Attributes**:
   - `ID`: unique location identifier
@@ -94,27 +94,27 @@ The integration provides the following sensors:
   - `Longitude`: Longitude  of the location
   - `Description`: Full name of the location
 
-### sensor.storage_box_&lt;boxname&gt;_location
+#### sensor.storage_box_&lt;boxname&gt;_location
 - **State**: Location code for your storage box location
 - **Unit**: bytes
 
-### sensor.storage_box_&lt;boxname&gt;_total_used
+#### sensor.storage_box_&lt;boxname&gt;_total_used
 - **State**: The total used size in bytes
 - **Unit**: bytes
 
-### sensor.storage_box_&lt;boxname&gt;_data_size
+#### sensor.storage_box_&lt;boxname&gt;_data_size
 - **State**: The size in bytes used for data 
 - **Unit**: bytes
 
-### sensor.storage_box_&lt;boxname&gt;_snapshot_size
+#### sensor.storage_box_&lt;boxname&gt;_snapshot_size
 - **State**: The size in bytes used for snapshots 
 - **Unit**: bytes
 
-### sensor.storage_box_&lt;boxname&gt;_free_space
+#### sensor.storage_box_&lt;boxname&gt;_free_space
 - **State**: The available free space in your Storage box 
 - **Unit**: bytes
 
-### sensor.storage_box_&lt;boxname&gt;_access_options
+#### sensor.storage_box_&lt;boxname&gt;_access_options
 - **State**: Number of access methods that are enabled (integer)
 - **Attributes**:
   - `webdav_enabled`: boolean
