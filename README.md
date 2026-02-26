@@ -15,14 +15,6 @@
   - [Setup via Configuration Flow](#setup-via-configuration-flow)
   - [Obtaining an API Key](#obtaining-an-api-key)
 - [Sensors and Attributes](#sensors-and-attributes)
-    - [sensor.storage_box_&lt;boxname&gt;](#sensorstorage_box_ltboxnamegt)
-    - [sensor.storage_box_&lt;boxname&gt;](#sensorstorage_box_ltboxnamegt-1)
-    - [sensor.storage_box_&lt;boxname&gt;_location](#sensorstorage_box_ltboxnamegt_location)
-    - [sensor.storage_box_&lt;boxname&gt;_total_used](#sensorstorage_box_ltboxnamegt_total_used)
-    - [sensor.storage_box_&lt;boxname&gt;_data_size](#sensorstorage_box_ltboxnamegt_data_size)
-    - [sensor.storage_box_&lt;boxname&gt;_snapshot_size](#sensorstorage_box_ltboxnamegt_snapshot_size)
-    - [sensor.storage_box_&lt;boxname&gt;_free_space](#sensorstorage_box_ltboxnamegt_free_space)
-    - [sensor.storage_box_&lt;boxname&gt;_access_options](#sensorstorage_box_ltboxnamegt_access_options)
 - [Update Interval](#update-interval)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
