@@ -43,7 +43,7 @@ The easiest way to install the Hetzer Storage Box integration is through HACS.
 2. Download the repository
 3. Restart Home Assistant
 
-### Manual Installation!
+### Manual Installation
 
 
 1. Download the `hetzner` custom component from this repository
