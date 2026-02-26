@@ -10,6 +10,13 @@
         "data": {
           "api_key": "API-sleutel"
         }
+      },
+      "storage_box": {
+        "title": "Hetzner Storage Box",
+        "description": "Kies een opslagbox om te monitoren.",
+        "data": {
+          "storage_box_id": "Selecteer een opslagbox"
+        }
       }
     },
     "error": {

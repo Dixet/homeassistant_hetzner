@@ -10,6 +10,13 @@
         "data": {
           "api_key": "API Key"
         }
+      },
+      "storage_box": {
+        "title": "Hetzner Storage Box",
+        "description": "Select a storage box to monitor.",
+        "data": {
+          "storage_box_id": "Please select a storage box"
+        }
       }
     },
     "error": {

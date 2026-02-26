@@ -14,8 +14,10 @@ DATA_SCHEMA = vol.Schema({
     vol.Required(CONF_API_KEY): str,
 })
 
-# Will be populated dynamically with available storage boxes
-STORAGE_BOX_SELECT_FIELD = "Please select a storage box"
+# Field key used for storage box selection; using the config constant
+# allows Home Assistant to look up a translation for this key under
+# `config.step.storage_box.data.storage_box_id`.
+STORAGE_BOX_SELECT_FIELD = CONF_STORAGE_BOX_ID
 
 def create_storage_box_schema(descriptions_list: list) -> vol.Schema:
     """Create schema with available storage boxes as options using selector.
