@@ -1,12 +1,12 @@
 {
   "config": {
     "abort": {
-      "already_configured": "Deze storage box is al geconfigureerd in Home Assistant."
+      "already_configured": "Deze Storage Box is al geconfigureerd in Home Assistant."
     },
     "step": {
       "user": {
         "title": "Hetzner Storage Box",
-        "description": "Stel de Hetzner Storage Box integratie in om je storage box te monitoren.",
+        "description": "Stel de Hetzner Storage Box-integratie in om uw opslagbox te monitoren.",
         "data": {
           "api_key": "API-sleutel",
           "unit": "Weergave-eenheid"
@@ -14,9 +14,9 @@
       },
       "storage_box": {
         "title": "Hetzner Storage Box",
-        "description": "Selecteer een storage box om te monitoren.",
+        "description": "Kies een opslagbox om te monitoren.",
         "data": {
-          "storage_box_id": "Selecteer een storage box"
+          "storage_box_id": "Selecteer een opslagbox"
         }
       }
     },
