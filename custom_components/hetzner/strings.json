@@ -5,7 +5,8 @@
         "title": "Hetzner Storage Box Configuration",
         "description": "Set up Hetzner Storage Box integration to monitor your storage box.",
         "data": {
-          "api_key": "API Key"
+          "api_key": "API Key",
+          "unit": "Display unit"
         }
       },
       "storage_box": {
@@ -26,6 +27,16 @@
       "api_error": "API error",
       "validation_error": "Validation error",
       "already_configured": "This storage box is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hetzner options",
+        "data": {
+          "unit": "Display unit"
+        }
+      }
     }
   }
 }

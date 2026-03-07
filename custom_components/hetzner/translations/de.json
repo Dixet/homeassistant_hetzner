@@ -1,0 +1,55 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Diese Storage Box ist bereits in Home Assistant konfiguriert."
+    },
+    "step": {
+      "user": {
+        "title": "Hetzner Storage Box",
+        "description": "Richte die Hetzner Storage Box Integration ein, um deine Storage Box zu überwachen.",
+        "data": {
+          "api_key": "API-Schlüssel",
+          "unit": "Anzeigeeinheit"
+        }
+      },
+      "storage_box": {
+        "title": "Hetzner Storage Box",
+        "description": "Wähle eine Storage Box aus, die überwacht werden soll.",
+        "data": {
+          "storage_box_id": "Bitte eine Storage Box auswählen"
+        }
+      }
+    },
+    "error": {
+      "api_key_required": "API-Schlüssel ist erforderlich"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hetzner Storage Box",
+        "description": "Anzeigeeinstellungen für die Hetzner Integration ändern.",
+        "data": {
+          "unit": "Anzeigeeinheit"
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "B": "Bytes",
+        "MB": "Megabyte",
+        "GB": "Gigabyte",
+        "TB": "Terabyte"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "storage_box_access_options": {
+        "name": "Storage Box {name} Zugriffsoptionen"
+      }
+    }
+  }
+}

@@ -1,21 +1,34 @@
 from datetime import timedelta
 import logging
 
-from homeassistant.components.sensor import SensorEntity, SensorDeviceClass, SensorStateClass
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import (
-    DataUpdateCoordinator,
     CoordinatorEntity,
+    DataUpdateCoordinator,
 )
 
-from .const import DOMAIN, CONF_API_KEY, CONF_HOST, CONF_STORAGE_BOX_ID, DEFAULT_HOST
+from .const import (
+    CONF_API_KEY,
+    CONF_HOST,
+    CONF_STORAGE_BOX_ID,
+    CONF_UNIT,
+    DEFAULT_HOST,
+    DEFAULT_UNIT,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(seconds=600)  # update every 10 minutes
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -27,6 +40,7 @@ async def async_setup_entry(
     api_key = hass.data[DOMAIN][config_entry.entry_id].get(CONF_API_KEY)
     host = hass.data[DOMAIN][config_entry.entry_id].get(CONF_HOST, DEFAULT_HOST)
     storage_box_id = config_entry.data.get(CONF_STORAGE_BOX_ID)
+    display_unit = hass.data[DOMAIN][config_entry.entry_id].get(CONF_UNIT, DEFAULT_UNIT)
 
     if storage_box_id is None:
         _LOGGER.error("No storage box id in config entry")
@@ -61,11 +75,11 @@ async def async_setup_entry(
         HetznerStatusSensor(coordinator, storage_box_id),
         HetznerLocationSensor(coordinator, storage_box_id),
         HetznerAccessOptionsSensor(coordinator, storage_box_id),
-        HetznerSizeSensor(coordinator, storage_box_id, "total"),
-        HetznerSizeSensor(coordinator, storage_box_id, "used"),
-        HetznerSizeSensor(coordinator, storage_box_id, "data"),
-        HetznerSizeSensor(coordinator, storage_box_id, "snapshots"),
-        HetznerSizeSensor(coordinator, storage_box_id, "free"),
+        HetznerSizeSensor(coordinator, storage_box_id, "total", display_unit),
+        HetznerSizeSensor(coordinator, storage_box_id, "used", display_unit),
+        HetznerSizeSensor(coordinator, storage_box_id, "data", display_unit),
+        HetznerSizeSensor(coordinator, storage_box_id, "snapshots", display_unit),
+        HetznerSizeSensor(coordinator, storage_box_id, "free", display_unit),
     ]
 
     async_add_entities(entities, True)
@@ -99,7 +113,6 @@ class HetznerStatusSensor(CoordinatorEntity, SensorEntity):
     @property
     def extra_state_attributes(self) -> dict:
         data = self.coordinator.data or {}
-        stats = data.get("stats") or {}
         s_type = data.get("storage_box_type") or {}
         return {
             "id": data.get("id"),
@@ -110,6 +123,7 @@ class HetznerStatusSensor(CoordinatorEntity, SensorEntity):
             "storage_box_type": s_type.get("name"),
             "created": data.get("created"),
         }
+
 
 class HetznerLocationSensor(CoordinatorEntity, SensorEntity):
     """Sensor representing the storage box location."""
@@ -156,18 +170,33 @@ class HetznerSizeSensor(CoordinatorEntity, SensorEntity):
 
     VALID_TYPES = {"total", "used", "data", "snapshots", "free"}
 
-    def __init__(self, coordinator: DataUpdateCoordinator, storage_box_id: str, metric: str):
+    def __init__(
+        self,
+        coordinator: DataUpdateCoordinator,
+        storage_box_id: str,
+        metric: str,
+        display_unit: str,
+    ):
         super().__init__(coordinator)
+
         if metric not in self.VALID_TYPES:
             raise ValueError("Invalid metric for HetznerSizeSensor")
+
         self._metric = metric
         self._storage_box_id = storage_box_id
+        self._display_unit = display_unit
+
         # Use bytes as the unit (native value is bytes from API)
-        self._attr_native_unit_of_measurement = "bytes"
+        self._attr_native_unit_of_measurement = self._display_unit
+        self._attr_suggested_display_precision = 2
+
         # Report as a measurement (for long term statistics) and set device class
         self._attr_state_class = SensorStateClass.MEASUREMENT
         self._attr_device_class = SensorDeviceClass.DATA_SIZE
-        self._attr_unique_id = f"{DOMAIN}_storage_box_{self._storage_box_id}_{self._metric}"
+        self._attr_unique_id = (
+            f"{DOMAIN}_storage_box_{self._storage_box_id}_{self._metric}_"
+            f"{self._display_unit.lower()}"
+        )
 
     @property
     def name(self) -> str:
@@ -189,26 +218,39 @@ class HetznerSizeSensor(CoordinatorEntity, SensorEntity):
         return "mdi:harddisk"
 
     @property
-    def state(self):
+    def native_value(self):
         data = self.coordinator.data or {}
         stats = data.get("stats") or {}
         sb = data.get("storage_box_type") or {}
+
         total = sb.get("size") or 0
         used = stats.get("size") or 0
         data_size = stats.get("size_data") or 0
         snapshots = stats.get("size_snapshots") or 0
 
         if self._metric == "total":
-            return total
-        if self._metric == "used":
-            return used
-        if self._metric == "data":
-            return data_size
-        if self._metric == "snapshots":
-            return snapshots
-        # free space (clamp to 0 to avoid negative values)
-        free = max(0, (total or 0) - (data_size or 0) - (snapshots or 0))
-        return free
+            value = total
+        elif self._metric == "used":
+            value = used
+        elif self._metric == "data":
+            value = data_size
+        elif self._metric == "snapshots":
+            value = snapshots
+        else:
+            # free space (clamp to 0 to avoid negative values)
+            value = max(0, total - data_size - snapshots)
+
+        return self._convert_from_bytes(value)
+
+    def _convert_from_bytes(self, value: float | int) -> float:
+        factors = {
+            "B": 1,
+            "MB": 1000**2,
+            "GB": 1000**3,
+            "TB": 1000**4,
+        }
+        factor = factors.get(self._display_unit, 1)
+        return round(float(value) / factor, 2)
 
 
 class HetznerAccessOptionsSensor(CoordinatorEntity, SensorEntity):
@@ -217,7 +259,9 @@ class HetznerAccessOptionsSensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator: DataUpdateCoordinator, storage_box_id: str):
         super().__init__(coordinator)
         self._storage_box_id = storage_box_id
-        self._attr_unique_id = f"{DOMAIN}_storage_box_{self._storage_box_id}_access_options"
+        self._attr_unique_id = (
+            f"{DOMAIN}_storage_box_{self._storage_box_id}_access_options"
+        )
         self._attr_icon = "mdi:network"
         # Expose as a numeric measurement (count of enabled access methods)
         self._attr_state_class = SensorStateClass.MEASUREMENT

@@ -132,3 +132,10 @@ The integration provides the following sensors:
 ## Update Interval
 
 All sensors are automatically updated every 10 minutes to fetch the latest status of your Storage Box.
+
+## Development
+
+It is recommend to create a virtualenv with Python 3.14.x
+After that you can run `pip install -r requirements.test.txt`
+
+If you make any changes, please run `pytest` before pushing your changes.

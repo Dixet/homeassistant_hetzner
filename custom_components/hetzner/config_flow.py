@@ -1,41 +1,95 @@
-import voluptuous as vol
-from homeassistant import config_entries
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers import selector
-import logging
 import asyncio
+import logging
 
-from .const import DOMAIN, CONF_API_KEY, CONF_HOST, CONF_STORAGE_BOX_ID, DEFAULT_HOST
+from homeassistant import config_entries
+from homeassistant.core import callback
+from homeassistant.helpers import selector
+from homeassistant.helpers.aiohttp_client import async_get_clientsession
+import voluptuous as vol
+
+from .const import (
+    CONF_API_KEY,
+    CONF_HOST,
+    CONF_STORAGE_BOX_ID,
+    CONF_UNIT,
+    DEFAULT_HOST,
+    DEFAULT_UNIT,
+    DOMAIN,
+    UNIT_OPTIONS,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
-DATA_SCHEMA = vol.Schema({
-    vol.Required(CONF_API_KEY): str,
-})
+DATA_SCHEMA = vol.Schema(
+    {
+        vol.Required(CONF_API_KEY): str,
+        vol.Required(CONF_UNIT, default=DEFAULT_UNIT): selector.SelectSelector(
+            selector.SelectSelectorConfig(
+                options=UNIT_OPTIONS,
+                mode=selector.SelectSelectorMode.DROPDOWN,
+            )
+        ),
+    }
+)
 
 # Field key used for storage box selection; using the config constant
 # allows Home Assistant to look up a translation for this key under
 # `config.step.storage_box.data.storage_box_id`.
 STORAGE_BOX_SELECT_FIELD = CONF_STORAGE_BOX_ID
 
+
 def create_storage_box_schema(descriptions_list: list) -> vol.Schema:
     """Create schema with available storage boxes as options using selector.
-    
+
     Args:
         descriptions_list: List of formatted descriptions for each storage box
     """
-    return vol.Schema({
-        vol.Required(STORAGE_BOX_SELECT_FIELD): selector.SelectSelector(
-            selector.SelectSelectorConfig(options=descriptions_list)
+    return vol.Schema(
+        {
+            vol.Required(STORAGE_BOX_SELECT_FIELD): selector.SelectSelector(
+                selector.SelectSelectorConfig(options=descriptions_list)
+            )
+        }
+    )
+
+
+class HetznerOptionsFlow(config_entries.OptionsFlow):
+
+    async def async_step_init(self, user_input=None):
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        current_unit = self.config_entry.options.get(
+            CONF_UNIT,
+            self.config_entry.data.get(CONF_UNIT, DEFAULT_UNIT),
         )
-    })
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_UNIT, default=current_unit
+                    ): selector.SelectSelector(
+                        selector.SelectSelectorConfig(
+                            options=UNIT_OPTIONS,
+                            mode=selector.SelectSelectorMode.DROPDOWN,
+                        )
+                    )
+                }
+            ),
+        )
 
 
 class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Hetzner Storage Box."""
 
-    VERSION = 1
+    VERSION = 2
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry):
+        return HetznerOptionsFlow()
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step - Ask for API key."""
@@ -44,6 +98,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             api_key = user_input.get(CONF_API_KEY, "").strip()
             host = DEFAULT_HOST
+            unit = user_input.get(CONF_UNIT, DEFAULT_UNIT)
 
             # Validate the API key is not empty
             if not api_key:
@@ -58,6 +113,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     self.data = {
                         CONF_API_KEY: api_key,
                         CONF_HOST: host,
+                        CONF_UNIT: unit,
                     }
                     return await self.async_step_storage_box()
 
@@ -78,7 +134,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         try:
             session = async_get_clientsession(self.hass)
             headers = {"Authorization": f"Bearer {api_key}"}
-            
+
             # Attempt a test API call to validate the key against Hetzner API
             async with session.get(
                 f"https://{host}/v1/storage_boxes",
@@ -95,7 +151,9 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     _LOGGER.error("Hetzner API endpoint not found")
                     return "invalid_host"
                 else:
-                    _LOGGER.error(f"Unexpected response from Hetzner API: {resp.status}")
+                    _LOGGER.error(
+                        f"Unexpected response from Hetzner API: {resp.status}"
+                    )
                     return "api_error"
         except asyncio.TimeoutError:
             _LOGGER.error("Timeout connecting to Hetzner API")
@@ -106,10 +164,10 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def _build_description_map(self, storage_boxes: dict) -> dict:
         """Build a mapping of formatted descriptions to storage box IDs.
-        
+
         Args:
             storage_boxes: Dict mapping box ID to box info
-            
+
         Returns:
             Dict mapping formatted description strings to box IDs
         """
@@ -121,7 +179,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def _fetch_storage_boxes(self, api_key: str, host: str) -> dict:
         """Fetch list of available storage boxes from Hetzner API.
-        
+
         Returns a dict mapping storage box ID (as string) to info dict with:
         - name: storage box name
         - status: storage box status
@@ -131,7 +189,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         try:
             session = async_get_clientsession(self.hass)
             headers = {"Authorization": f"Bearer {api_key}"}
-            
+
             async with session.get(
                 f"https://{host}/v1/storage_boxes",
                 headers=headers,
@@ -140,10 +198,10 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 if resp.status != 200:
                     _LOGGER.error("Error fetching storage boxes: %s", resp.status)
                     return {}
-                
+
                 data = await resp.json()
                 storage_boxes = {}
-                
+
                 for box in data.get("storage_boxes", []):
                     box_id = str(box.get("id"))
                     box_type = box.get("storage_box_type") or {}
@@ -153,7 +211,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         "box_type": box_type.get("name"),
                         "description": box_type.get("description"),
                     }
-                
+
                 return storage_boxes
         except asyncio.TimeoutError:
             _LOGGER.error("Timeout fetching storage boxes")
@@ -165,13 +223,12 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_storage_box(self, user_input=None):
         """Handle the storage box selection step."""
         errors = {}
-        
+
         # Fetch available storage boxes from API
         storage_boxes = await self._fetch_storage_boxes(
-            self.data[CONF_API_KEY],
-            self.data[CONF_HOST]
+            self.data[CONF_API_KEY], self.data[CONF_HOST]
         )
-        
+
         if not storage_boxes:
             errors["base"] = "no_storage_boxes"
             return self.async_show_form(
@@ -189,7 +246,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             # Map description back to ID
             descriptions_to_ids = await self._build_description_map(storage_boxes)
             selected_box_id = descriptions_to_ids.get(selected_description)
-            
+
             if selected_box_id:
                 selected_box = storage_boxes.get(selected_box_id)
                 # Set unique ID for the config entry (storage box id) to allow single instance per box
@@ -202,6 +259,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                         CONF_API_KEY: self.data[CONF_API_KEY],
                         CONF_HOST: self.data[CONF_HOST],
                         CONF_STORAGE_BOX_ID: selected_box_id,
+                        CONF_UNIT: self.data[CONF_UNIT],
                     },
                 )
             else:
@@ -210,7 +268,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # Build mapping of descriptions to IDs for dropdown
         descriptions_to_ids = await self._build_description_map(storage_boxes)
         descriptions_list = list(descriptions_to_ids.keys())
-        
+
         return self.async_show_form(
             step_id="storage_box",
             data_schema=create_storage_box_schema(descriptions_list),

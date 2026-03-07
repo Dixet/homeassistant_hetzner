@@ -8,7 +8,8 @@
         "title": "Hetzner Storage Box",
         "description": "Set up the Hetzner Storage Box integration to monitor your storage box.",
         "data": {
-          "api_key": "API Key"
+          "api_key": "API Key",
+          "unit": "Display unit"
         }
       },
       "storage_box": {
@@ -21,6 +22,27 @@
     },
     "error": {
       "api_key_required": "API key is required"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hetzner Storage Box",
+        "description": "Change display settings for the Hetzner integration.",
+        "data": {
+          "unit": "Display unit"
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "B": "Bytes",
+        "MB": "Megabytes",
+        "GB": "Gigabytes",
+        "TB": "Terabytes"
+      }
     }
   },
   "entity": {
