@@ -106,7 +106,7 @@ class HetznerStatusSensor(CoordinatorEntity, SensorEntity):
         return "mdi:database"
 
     @property
-    def state(self):
+    def native_value(self) -> str | None:
         data = self.coordinator.data or {}
         return data.get("status")
 
@@ -146,7 +146,7 @@ class HetznerLocationSensor(CoordinatorEntity, SensorEntity):
         return "mdi:map-marker"
 
     @property
-    def state(self):
+    def native_value(self) -> str | None:
         data = self.coordinator.data or {}
         location = data.get("location") or {}
         return location.get("name")
@@ -218,7 +218,7 @@ class HetznerSizeSensor(CoordinatorEntity, SensorEntity):
         return "mdi:harddisk"
 
     @property
-    def native_value(self):
+    def native_value(self) -> float:
         data = self.coordinator.data or {}
         stats = data.get("stats") or {}
         sb = data.get("storage_box_type") or {}
@@ -275,7 +275,7 @@ class HetznerAccessOptionsSensor(CoordinatorEntity, SensorEntity):
         return f"Storage Box {self._storage_box_id} Access Options"
 
     @property
-    def state(self):
+    def native_value(self) -> int:
         data = self.coordinator.data or {}
         access = data.get("access_settings") or {}
         # Count only values that are True
