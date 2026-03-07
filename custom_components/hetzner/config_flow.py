@@ -1,6 +1,7 @@
 import asyncio
 import logging
 
+from aiohttp import ClientTimeout
 from homeassistant import config_entries
 from homeassistant.core import callback
 from homeassistant.helpers import selector
@@ -139,7 +140,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             async with session.get(
                 f"https://{host}/v1/storage_boxes",
                 headers=headers,
-                timeout=10,
+                timeout=ClientTimeout(total=10),
             ) as resp:
                 if resp.status == 401:
                     _LOGGER.error("Invalid API key for Hetzner Storage Box")
@@ -193,7 +194,7 @@ class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             async with session.get(
                 f"https://{host}/v1/storage_boxes",
                 headers=headers,
-                timeout=10,
+                timeout=ClientTimeout(total=10),
             ) as resp:
                 if resp.status != 200:
                     _LOGGER.error("Error fetching storage boxes: %s", resp.status)
