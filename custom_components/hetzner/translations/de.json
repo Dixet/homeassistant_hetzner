@@ -38,10 +38,10 @@
   "selector": {
     "unit": {
       "options": {
-        "B": "Bytes",
-        "MB": "Megabyte",
-        "GB": "Gigabyte",
-        "TB": "Terabyte"
+        "b": "Bytes",
+        "mb": "Megabytes",
+        "gb": "Gigabytes",
+        "tb": "Terabytes"
       }
     }
   },
