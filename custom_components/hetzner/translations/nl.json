@@ -21,7 +21,14 @@
       }
     },
     "error": {
-      "api_key_required": "API-sleutel is vereist"
+      "api_key_required": "API-sleutel is vereist",
+      "storage_box_id_required": "Een Storage Box moet worden geselecteerd",
+      "no_storage_boxes": "Geen Storage Boxen gevonden voor deze API-sleutel",
+      "invalid_selection": "Ongeldige selectie van Storage Box",
+      "invalid_api_key": "Ongeldige API-sleutel",
+      "connection_timeout": "Verbindingstime-out",
+      "api_error": "API-fout",
+      "validation_error": "Validatiefout"
     }
   },
   "options": {

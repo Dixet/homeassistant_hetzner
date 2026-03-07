@@ -21,7 +21,14 @@
       }
     },
     "error": {
-      "api_key_required": "API-Schlüssel ist erforderlich"
+      "api_key_required": "API-Schlüssel ist erforderlich",
+      "storage_box_id_required": "Eine Storage Box muss ausgewählt werden",
+      "no_storage_boxes": "Für diesen API-Schlüssel wurden keine Storage Boxen gefunden",
+      "invalid_selection": "Ungültige Storage-Box-Auswahl",
+      "invalid_api_key": "Ungültiger API-Schlüssel",
+      "connection_timeout": "Zeitüberschreitung bei der Verbindung",
+      "api_error": "API-Fehler",
+      "validation_error": "Validierungsfehler"
     }
   },
   "options": {

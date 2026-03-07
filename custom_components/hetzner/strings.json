@@ -1,5 +1,8 @@
 {
   "config": {
+    "abort": {
+      "already_configured": "This storage box is already configured in Home Assistant."
+    },
     "step": {
       "user": {
         "title": "Hetzner Storage Box Configuration",
@@ -13,11 +16,11 @@
         "title": "Select Storage Box",
         "description": "Choose a storage box from your available storage boxes:",
         "data": {
-          "select_storage_box": "Select a Storage Box"
+          "storage_box_id": "Select a Storage Box"
         }
       }
     },
-      "error": {
+    "error": {
       "api_key_required": "API key is required",
       "storage_box_id_required": "Storage Box is required",
       "no_storage_boxes": "No storage boxes found for this API key",
@@ -25,17 +28,34 @@
       "invalid_api_key": "Invalid API key",
       "connection_timeout": "Connection timeout",
       "api_error": "API error",
-      "validation_error": "Validation error",
-      "already_configured": "This storage box is already configured"
+      "validation_error": "Validation error"
     }
   },
   "options": {
     "step": {
       "init": {
-        "title": "Hetzner options",
+        "title": "Hetzner Storage Box",
+        "description": "Change display settings for the Hetzner integration.",
         "data": {
           "unit": "Display unit"
         }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "b": "Bytes",
+        "mb": "Megabytes",
+        "gb": "Gigabytes",
+        "tb": "Terabytes"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "storage_box_access_options": {
+        "name": "Storage Box {name} Access Options"
       }
     }
   }
