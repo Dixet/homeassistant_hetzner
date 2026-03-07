@@ -7,10 +7,10 @@ end_of_line = lf
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-[*.{md,json,yaml,yml,cfg}]
+[*.{md,json,yaml,yml}]
 indent_style = space
 indent_size = 2
 
-[*.py]
+[*.{py,cfg}]
 indent_style = space
 indent_size = 4
