@@ -137,6 +137,14 @@ All sensors are automatically updated every 10 minutes to fetch the latest statu
 ## Development
 
 It is recommend to create a virtualenv with Python 3.14.x
-After that you can run `pip install -r requirements.test.txt`
+After that you can run 
 
-If you make any changes, please run `pytest` before pushing your changes.
+```bash
+$ pip install -r requirements.dev.txt
+```
+
+If you make any changes, please run pytest before pushing your changes.
+
+```bash
+$ pytest . --black --isort --flake8 --mypy
+```
