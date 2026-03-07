@@ -16,6 +16,7 @@
   - [Obtaining an API Key](#obtaining-an-api-key)
 - [Sensors and Attributes](#sensors-and-attributes)
 - [Update Interval](#update-interval)
+- [Development](#development)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
