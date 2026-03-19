@@ -8,7 +8,8 @@
         "title": "Hetzner Storage Box",
         "description": "Stel de Hetzner Storage Box-integratie in om uw opslagbox te monitoren.",
         "data": {
-          "api_key": "API-sleutel"
+          "api_key": "API-sleutel",
+          "unit": "Weergave-eenheid"
         }
       },
       "storage_box": {
@@ -20,7 +21,35 @@
       }
     },
     "error": {
-      "api_key_required": "API-sleutel is vereist"
+      "api_key_required": "API-sleutel is vereist",
+      "storage_box_id_required": "Een Storage Box moet worden geselecteerd",
+      "no_storage_boxes": "Geen Storage Boxen gevonden voor deze API-sleutel",
+      "invalid_selection": "Ongeldige selectie van Storage Box",
+      "invalid_api_key": "Ongeldige API-sleutel",
+      "connection_timeout": "Verbindingstime-out",
+      "api_error": "API-fout",
+      "validation_error": "Validatiefout"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hetzner Storage Box",
+        "description": "Wijzig de weergave-instellingen voor de Hetzner integratie.",
+        "data": {
+          "unit": "Weergave-eenheid"
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "b": "Bytes",
+        "mb": "Megabytes",
+        "gb": "Gigabytes",
+        "tb": "Terabytes"
+      }
     }
   },
   "entity": {

@@ -16,6 +16,7 @@
   - [Obtaining an API Key](#obtaining-an-api-key)
 - [Sensors and Attributes](#sensors-and-attributes)
 - [Update Interval](#update-interval)
+- [Development](#development)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -132,3 +133,18 @@ The integration provides the following sensors:
 ## Update Interval
 
 All sensors are automatically updated every 10 minutes to fetch the latest status of your Storage Box.
+
+## Development
+
+It is recommend to create a virtualenv with Python 3.14.x
+After that you can run 
+
+```bash
+$ pip install -r requirements.dev.txt
+```
+
+If you make any changes, please run pytest before pushing your changes.
+
+```bash
+$ pytest . --black --isort --flake8 --mypy
+```
