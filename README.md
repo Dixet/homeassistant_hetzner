@@ -24,7 +24,7 @@
 **Hetzner Storage Box**  
 
 Home Assistant custom component that exposes storage metrics for your [Hetzner Storage Box](https://www.hetzner.com/storage/storage-box/) via the official JSON API.  
-Track **total, used, free, data and snapshot sizes** as native `bytes` sensors, plus a status sensor that shows the box state and enriches it with details such as type, creation date and server name.  Also a `location` sensor is available to show details of where your data is stored.
+Track **total, used, free, data and snapshot sizes** as native size sensors in your configured unit (`B`, `MB`, `GB`, or `TB`), plus a status sensor that shows the box state and enriches it with details such as type, creation date and server name. Also a `location` sensor is available to show details of where your data is stored.
 Perfect for monitoring your off-site backup space and add it to dashboards, automations and long-term statistics.
 
 ## Installation
@@ -65,6 +65,7 @@ home-assistant/
 1. In Home Assistant, navigate to **Settings** > **Devices & Services**
 2. Click **Add Integration** and search for "Hetzner" 
 3. Enter your API key when prompted
+4. Select the desired unit of measurement (`B`, `MB`, `GB`, or `TB`). The default is `B`.
 4. Select the Storage Box you would like to configure
 5. Complete the configuration flow
 
@@ -104,20 +105,20 @@ The integration provides the following sensors:
 - **Unit**: bytes
 
 #### sensor.storage_box_&lt;boxname&gt;_total_used
-- **State**: The total used size in bytes
-- **Unit**: bytes
+- **State**: The total used size in the configured unit
+- **Unit**: User-selected unit (`B`, `MB`, `GB`, or `TB`)
 
 #### sensor.storage_box_&lt;boxname&gt;_data_size
-- **State**: The size in bytes used for data 
-- **Unit**: bytes
+- **State**: The size used for data in the configured unit
+- **Unit**: User-selected unit (`B`, `MB`, `GB`, or `TB`)
 
 #### sensor.storage_box_&lt;boxname&gt;_snapshot_size
-- **State**: The size in bytes used for snapshots 
-- **Unit**: bytes
+- **State**: The size used for snapshots in the configured unit
+- **Unit**: User-selected unit (`B`, `MB`, `GB`, or `TB`)
 
 #### sensor.storage_box_&lt;boxname&gt;_free_space
-- **State**: The available free space in your Storage box 
-- **Unit**: bytes
+- **State**: The available free space in your Storage Box in the configured unit
+- **Unit**: User-selected unit (`B`, `MB`, `GB`, or `TB`)
 
 #### sensor.storage_box_&lt;boxname&gt;_access_options
 - **State**: Number of access methods that are enabled (integer)
