@@ -85,7 +85,7 @@ class HetznerOptionsFlow(config_entries.OptionsFlow):
 class HetznerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Hetzner Storage Box."""
 
-    VERSION = 2
+    VERSION = 3
 
     @staticmethod
     @callback
