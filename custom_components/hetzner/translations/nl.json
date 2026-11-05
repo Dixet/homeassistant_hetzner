@@ -1,15 +1,19 @@
 {
   "config": {
     "abort": {
-      "already_configured": "Deze Storage Box is al geconfigureerd in Home Assistant."
+      "already_configured": "Deze Storage Box is al geconfigureerd in Home Assistant.",
+      "reauth_successful": "De API-token is bijgewerkt.",
+      "reconfigure_successful": "De API-token is bijgewerkt."
     },
     "step": {
       "user": {
         "title": "Hetzner Storage Box",
         "description": "Stel de Hetzner Storage Box-integratie in om uw opslagbox te monitoren.",
         "data": {
-          "api_key": "API-sleutel",
-          "unit": "Weergave-eenheid"
+          "api_key": "API-sleutel"
+        },
+        "data_description": {
+          "api_key": "API-token uit de Hetzner Console (uw project → Security → API tokens). Leestoegang is voldoende."
         }
       },
       "storage_box": {
@@ -17,46 +21,128 @@
         "description": "Kies een opslagbox om te monitoren.",
         "data": {
           "storage_box_id": "Selecteer een opslagbox"
+        },
+        "data_description": {
+          "storage_box_id": "De opslagbox die gemonitord wordt. Voeg de integratie opnieuw toe om een andere box te monitoren."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Hetzner Storage Box opnieuw authenticeren",
+        "description": "De Hetzner API heeft de API-token geweigerd. Voer een nieuwe token in van het project dat de opslagbox bevat.",
+        "data": {
+          "api_key": "API-sleutel"
+        },
+        "data_description": {
+          "api_key": "API-token uit de Hetzner Console (uw project → Security → API tokens). Leestoegang is voldoende."
+        }
+      },
+      "reconfigure": {
+        "title": "API-token van de Hetzner Storage Box wijzigen",
+        "description": "Voer een nieuwe API-token in voor opslagbox {storage_box_id}. Deze moet horen bij het project dat de opslagbox bevat. De opslagbox blijft dezelfde; voeg de integratie opnieuw toe om een andere te monitoren.",
+        "data": {
+          "api_key": "API-sleutel"
+        },
+        "data_description": {
+          "api_key": "API-token uit de Hetzner Console (uw project → Security → API tokens). Leestoegang is voldoende."
         }
       }
     },
     "error": {
       "api_key_required": "API-sleutel is vereist",
-      "storage_box_id_required": "Een Storage Box moet worden geselecteerd",
       "no_storage_boxes": "Geen Storage Boxen gevonden voor deze API-sleutel",
       "invalid_selection": "Ongeldige selectie van Storage Box",
+      "already_configured": "Deze Storage Box is al geconfigureerd. Selecteer een andere.",
       "invalid_api_key": "Ongeldige API-sleutel",
       "connection_timeout": "Verbindingstime-out",
       "api_error": "API-fout",
-      "validation_error": "Validatiefout"
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Hetzner Storage Box",
-        "description": "Wijzig de weergave-instellingen voor de Hetzner integratie.",
-        "data": {
-          "unit": "Weergave-eenheid"
-        }
-      }
-    }
-  },
-  "selector": {
-    "unit": {
-      "options": {
-        "b": "Bytes",
-        "mb": "Megabytes",
-        "gb": "Gigabytes",
-        "tb": "Terabytes"
-      }
+      "cannot_connect": "Kan geen verbinding maken met de Hetzner API",
+      "unknown": "Onverwachte fout, zie het Home Assistant logboek voor details",
+      "invalid_host": "Hetzner API-endpoint niet gevonden",
+      "storage_box_not_found": "Deze API-token heeft geen toegang tot de geconfigureerde opslagbox"
     }
   },
   "entity": {
-    "sensor": {
-      "storage_box_access_options": {
-        "name": "Storage Box {name} Toegangsopties"
+    "binary_sensor": {
+      "reachable_externally": {
+        "name": "Extern bereikbaar (hoofdaccount)"
+      },
+      "samba": {
+        "name": "Samba (hoofdaccount)"
+      },
+      "ssh": {
+        "name": "SSH (hoofdaccount)"
+      },
+      "webdav": {
+        "name": "WebDAV (hoofdaccount)"
+      },
+      "zfs_snapshot_folder": {
+        "name": "ZFS-snapshotmap (hoofdaccount)"
+      },
+      "subaccount_reachable_externally": {
+        "name": "Extern bereikbaar"
+      },
+      "subaccount_samba": {
+        "name": "Samba"
+      },
+      "subaccount_ssh": {
+        "name": "SSH"
+      },
+      "subaccount_webdav": {
+        "name": "WebDAV"
+      },
+      "readonly": {
+        "name": "Alleen-lezen"
       }
+    },
+    "sensor": {
+      "status": {
+        "state": {
+          "active": "Actief",
+          "initializing": "Wordt ingericht",
+          "locked": "Vergrendeld"
+        }
+      },
+      "location": {
+        "name": "Locatie"
+      },
+      "total_size": {
+        "name": "Totale grootte"
+      },
+      "total_used": {
+        "name": "Totaal gebruikt"
+      },
+      "data_size": {
+        "name": "Datagrootte"
+      },
+      "snapshot_size": {
+        "name": "Snapshotgrootte"
+      },
+      "free_space": {
+        "name": "Vrije ruimte"
+      },
+      "home_directory": {
+        "name": "Thuismap"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_api_key": {
+      "message": "De Hetzner API heeft de API-token geweigerd: {error}"
+    },
+    "storage_box_not_found": {
+      "message": "Opslagbox {storage_box_id} niet gevonden — verwijderd, of niet toegankelijk met deze API-token"
+    },
+    "api_error": {
+      "message": "De Hetzner API gaf een fout: {error}"
+    },
+    "cannot_connect": {
+      "message": "Kan geen verbinding maken met de Hetzner API: {error}"
+    }
+  },
+  "issues": {
+    "storage_box_not_found": {
+      "title": "Opslagbox {storage_box_id} niet gevonden",
+      "description": "Volgens de Hetzner API is opslagbox {storage_box_id} niet gevonden — verwijderd, of niet toegankelijk met deze API-token. Home Assistant blijft het opnieuw proberen en verwijdert deze melding zodra de box weer kan worden opgehaald.\n\nAls de opslagbox is verwijderd, verwijder dan deze integratie-invoer. Hoort de box bij een ander project dan de API-token, kies dan Herconfigureer in het menu van deze integratie-invoer en voer een API-token van dat project in."
     }
   }
 }

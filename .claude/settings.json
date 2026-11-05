@@ -1,0 +1,6 @@
+{
+  "enabledPlugins": {
+    "home-assistant-skills@home-assistant-skills": true,
+    "home-assistant-developer@home-assistant-developer": true
+  }
+}

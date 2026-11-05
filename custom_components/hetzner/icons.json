@@ -1,0 +1,106 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "reachable_externally": {
+        "default": "mdi:web",
+        "state": {
+          "on": "mdi:web",
+          "off": "mdi:web-off"
+        }
+      },
+      "samba": {
+        "default": "mdi:folder-network",
+        "state": {
+          "on": "mdi:folder-network",
+          "off": "mdi:folder-network-outline"
+        }
+      },
+      "ssh": {
+        "default": "mdi:console-network",
+        "state": {
+          "on": "mdi:console-network",
+          "off": "mdi:console-network-outline"
+        }
+      },
+      "webdav": {
+        "default": "mdi:folder-sync",
+        "state": {
+          "on": "mdi:folder-sync",
+          "off": "mdi:folder-sync-outline"
+        }
+      },
+      "zfs_snapshot_folder": {
+        "default": "mdi:folder-eye",
+        "state": {
+          "on": "mdi:folder-eye",
+          "off": "mdi:folder-hidden"
+        }
+      },
+      "subaccount_reachable_externally": {
+        "default": "mdi:web",
+        "state": {
+          "on": "mdi:web",
+          "off": "mdi:web-off"
+        }
+      },
+      "subaccount_samba": {
+        "default": "mdi:folder-network",
+        "state": {
+          "on": "mdi:folder-network",
+          "off": "mdi:folder-network-outline"
+        }
+      },
+      "subaccount_ssh": {
+        "default": "mdi:console-network",
+        "state": {
+          "on": "mdi:console-network",
+          "off": "mdi:console-network-outline"
+        }
+      },
+      "subaccount_webdav": {
+        "default": "mdi:folder-sync",
+        "state": {
+          "on": "mdi:folder-sync",
+          "off": "mdi:folder-sync-outline"
+        }
+      },
+      "readonly": {
+        "default": "mdi:lock",
+        "state": {
+          "on": "mdi:lock",
+          "off": "mdi:lock-open-variant"
+        }
+      }
+    },
+    "sensor": {
+      "status": {
+        "default": "mdi:database",
+        "state": {
+          "initializing": "mdi:database-sync",
+          "locked": "mdi:database-lock"
+        }
+      },
+      "location": {
+        "default": "mdi:map-marker"
+      },
+      "total_size": {
+        "default": "mdi:harddisk"
+      },
+      "total_used": {
+        "default": "mdi:harddisk"
+      },
+      "data_size": {
+        "default": "mdi:harddisk"
+      },
+      "snapshot_size": {
+        "default": "mdi:harddisk"
+      },
+      "free_space": {
+        "default": "mdi:harddisk"
+      },
+      "home_directory": {
+        "default": "mdi:folder-home"
+      }
+    }
+  }
+}

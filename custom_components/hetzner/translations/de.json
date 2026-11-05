@@ -1,15 +1,19 @@
 {
   "config": {
     "abort": {
-      "already_configured": "Diese Storage Box ist bereits in Home Assistant konfiguriert."
+      "already_configured": "Diese Storage Box ist bereits in Home Assistant konfiguriert.",
+      "reauth_successful": "Der API-Token wurde aktualisiert.",
+      "reconfigure_successful": "Der API-Token wurde aktualisiert."
     },
     "step": {
       "user": {
         "title": "Hetzner Storage Box",
         "description": "Richte die Hetzner Storage Box Integration ein, um deine Storage Box zu überwachen.",
         "data": {
-          "api_key": "API-Schlüssel",
-          "unit": "Anzeigeeinheit"
+          "api_key": "API-Schlüssel"
+        },
+        "data_description": {
+          "api_key": "API-Token aus der Hetzner Console (dein Projekt → Sicherheit → API-Tokens). Lesezugriff genügt."
         }
       },
       "storage_box": {
@@ -17,46 +21,128 @@
         "description": "Wähle eine Storage Box aus, die überwacht werden soll.",
         "data": {
           "storage_box_id": "Bitte eine Storage Box auswählen"
+        },
+        "data_description": {
+          "storage_box_id": "Die zu überwachende Storage Box. Für eine weitere Box die Integration erneut hinzufügen."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Hetzner Storage Box erneut authentifizieren",
+        "description": "Die Hetzner API hat den API-Token abgelehnt. Gib einen neuen Token des Projekts ein, das die Storage Box enthält.",
+        "data": {
+          "api_key": "API-Schlüssel"
+        },
+        "data_description": {
+          "api_key": "API-Token aus der Hetzner Console (dein Projekt → Sicherheit → API-Tokens). Lesezugriff genügt."
+        }
+      },
+      "reconfigure": {
+        "title": "API-Token der Hetzner Storage Box ändern",
+        "description": "Gib einen neuen API-Token für die Storage Box {storage_box_id} ein. Er muss zu dem Projekt gehören, das die Box enthält. Die Storage Box bleibt dieselbe; füge die Integration erneut hinzu, um eine weitere zu überwachen.",
+        "data": {
+          "api_key": "API-Schlüssel"
+        },
+        "data_description": {
+          "api_key": "API-Token aus der Hetzner Console (dein Projekt → Sicherheit → API-Tokens). Lesezugriff genügt."
         }
       }
     },
     "error": {
       "api_key_required": "API-Schlüssel ist erforderlich",
-      "storage_box_id_required": "Eine Storage Box muss ausgewählt werden",
       "no_storage_boxes": "Für diesen API-Schlüssel wurden keine Storage Boxen gefunden",
       "invalid_selection": "Ungültige Storage-Box-Auswahl",
+      "already_configured": "Diese Storage Box ist bereits konfiguriert. Wähle eine andere aus.",
       "invalid_api_key": "Ungültiger API-Schlüssel",
       "connection_timeout": "Zeitüberschreitung bei der Verbindung",
       "api_error": "API-Fehler",
-      "validation_error": "Validierungsfehler"
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Hetzner Storage Box",
-        "description": "Anzeigeeinstellungen für die Hetzner Integration ändern.",
-        "data": {
-          "unit": "Anzeigeeinheit"
-        }
-      }
-    }
-  },
-  "selector": {
-    "unit": {
-      "options": {
-        "b": "Bytes",
-        "mb": "Megabytes",
-        "gb": "Gigabytes",
-        "tb": "Terabytes"
-      }
+      "cannot_connect": "Verbindung zur Hetzner API fehlgeschlagen",
+      "unknown": "Unerwarteter Fehler, Details findest du im Home Assistant Protokoll",
+      "invalid_host": "Hetzner-API-Endpunkt nicht gefunden",
+      "storage_box_not_found": "Dieser API-Token hat keinen Zugriff auf die konfigurierte Storage Box"
     }
   },
   "entity": {
-    "sensor": {
-      "storage_box_access_options": {
-        "name": "Storage Box {name} Zugriffsoptionen"
+    "binary_sensor": {
+      "reachable_externally": {
+        "name": "Extern erreichbar (Hauptkonto)"
+      },
+      "samba": {
+        "name": "Samba (Hauptkonto)"
+      },
+      "ssh": {
+        "name": "SSH (Hauptkonto)"
+      },
+      "webdav": {
+        "name": "WebDAV (Hauptkonto)"
+      },
+      "zfs_snapshot_folder": {
+        "name": "ZFS-Snapshot-Ordner (Hauptkonto)"
+      },
+      "subaccount_reachable_externally": {
+        "name": "Extern erreichbar"
+      },
+      "subaccount_samba": {
+        "name": "Samba"
+      },
+      "subaccount_ssh": {
+        "name": "SSH"
+      },
+      "subaccount_webdav": {
+        "name": "WebDAV"
+      },
+      "readonly": {
+        "name": "Schreibgeschützt"
       }
+    },
+    "sensor": {
+      "status": {
+        "state": {
+          "active": "Aktiv",
+          "initializing": "Wird eingerichtet",
+          "locked": "Gesperrt"
+        }
+      },
+      "location": {
+        "name": "Standort"
+      },
+      "total_size": {
+        "name": "Gesamtgröße"
+      },
+      "total_used": {
+        "name": "Insgesamt belegt"
+      },
+      "data_size": {
+        "name": "Datengröße"
+      },
+      "snapshot_size": {
+        "name": "Snapshot-Größe"
+      },
+      "free_space": {
+        "name": "Freier Speicher"
+      },
+      "home_directory": {
+        "name": "Home-Verzeichnis"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_api_key": {
+      "message": "Die Hetzner API hat den API-Token abgelehnt: {error}"
+    },
+    "storage_box_not_found": {
+      "message": "Storage Box {storage_box_id} nicht gefunden – gelöscht oder mit diesem API-Token nicht erreichbar"
+    },
+    "api_error": {
+      "message": "Die Hetzner API hat einen Fehler gemeldet: {error}"
+    },
+    "cannot_connect": {
+      "message": "Keine Verbindung zur Hetzner API möglich: {error}"
+    }
+  },
+  "issues": {
+    "storage_box_not_found": {
+      "title": "Storage Box {storage_box_id} nicht gefunden",
+      "description": "Laut Hetzner API wurde die Storage Box {storage_box_id} nicht gefunden – sie wurde gelöscht oder ist mit diesem API-Token nicht erreichbar. Home Assistant versucht es weiter und entfernt diese Meldung, sobald die Box wieder abgerufen werden kann.\n\nWurde die Storage Box gelöscht, lösche diesen Integrationseintrag. Gehört sie zu einem anderen Projekt als der API-Token, wähle im Menü dieses Integrationseintrags „Neu konfigurieren“ und gib einen API-Token dieses Projekts ein."
     }
   }
 }

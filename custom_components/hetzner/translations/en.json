@@ -1,15 +1,19 @@
 {
   "config": {
     "abort": {
-      "already_configured": "This storage box is already configured in Home Assistant."
+      "already_configured": "This storage box is already configured in Home Assistant.",
+      "reauth_successful": "The API token was updated.",
+      "reconfigure_successful": "The API token was updated."
     },
     "step": {
       "user": {
         "title": "Hetzner Storage Box",
         "description": "Set up the Hetzner Storage Box integration to monitor your storage box.",
         "data": {
-          "api_key": "API Key",
-          "unit": "Display unit"
+          "api_key": "API Key"
+        },
+        "data_description": {
+          "api_key": "API token from the Hetzner Console (your project → Security → API tokens). Read access is enough."
         }
       },
       "storage_box": {
@@ -17,46 +21,128 @@
         "description": "Select a storage box to monitor.",
         "data": {
           "storage_box_id": "Please select a storage box"
+        },
+        "data_description": {
+          "storage_box_id": "The storage box to monitor. Add the integration again to monitor another box."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate Hetzner Storage Box",
+        "description": "The Hetzner API rejected the API token. Enter a new token of the project that contains the storage box.",
+        "data": {
+          "api_key": "API Key"
+        },
+        "data_description": {
+          "api_key": "API token from the Hetzner Console (your project → Security → API tokens). Read access is enough."
+        }
+      },
+      "reconfigure": {
+        "title": "Change the Hetzner Storage Box API token",
+        "description": "Enter a new API token for storage box {storage_box_id}. It must belong to the project that contains the box. The storage box stays the same; add the integration again to monitor another one.",
+        "data": {
+          "api_key": "API Key"
+        },
+        "data_description": {
+          "api_key": "API token from the Hetzner Console (your project → Security → API tokens). Read access is enough."
         }
       }
     },
     "error": {
       "api_key_required": "API key is required",
-      "storage_box_id_required": "Storage Box is required",
       "no_storage_boxes": "No storage boxes found for this API key",
       "invalid_selection": "Invalid storage box selection",
+      "already_configured": "This storage box is already configured. Select another one.",
       "invalid_api_key": "Invalid API key",
       "connection_timeout": "Connection timeout",
       "api_error": "API error",
-      "validation_error": "Validation error"
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Hetzner Storage Box",
-        "description": "Change display settings for the Hetzner integration.",
-        "data": {
-          "unit": "Display unit"
-        }
-      }
-    }
-  },
-  "selector": {
-    "unit": {
-      "options": {
-        "b": "Bytes",
-        "mb": "Megabytes",
-        "gb": "Gigabytes",
-        "tb": "Terabytes"
-      }
+      "cannot_connect": "Cannot connect to the Hetzner API",
+      "unknown": "Unexpected error, see the Home Assistant log for details",
+      "invalid_host": "Hetzner API endpoint not found",
+      "storage_box_not_found": "This API token has no access to the configured storage box"
     }
   },
   "entity": {
-    "sensor": {
-      "storage_box_access_options": {
-        "name": "Storage Box {name} Access Options"
+    "binary_sensor": {
+      "reachable_externally": {
+        "name": "Reachable externally (main account)"
+      },
+      "samba": {
+        "name": "Samba (main account)"
+      },
+      "ssh": {
+        "name": "SSH (main account)"
+      },
+      "webdav": {
+        "name": "WebDAV (main account)"
+      },
+      "zfs_snapshot_folder": {
+        "name": "ZFS snapshot folder (main account)"
+      },
+      "subaccount_reachable_externally": {
+        "name": "Reachable externally"
+      },
+      "subaccount_samba": {
+        "name": "Samba"
+      },
+      "subaccount_ssh": {
+        "name": "SSH"
+      },
+      "subaccount_webdav": {
+        "name": "WebDAV"
+      },
+      "readonly": {
+        "name": "Read-only"
       }
+    },
+    "sensor": {
+      "status": {
+        "state": {
+          "active": "Active",
+          "initializing": "Initializing",
+          "locked": "Locked"
+        }
+      },
+      "location": {
+        "name": "Location"
+      },
+      "total_size": {
+        "name": "Total size"
+      },
+      "total_used": {
+        "name": "Total used"
+      },
+      "data_size": {
+        "name": "Data size"
+      },
+      "snapshot_size": {
+        "name": "Snapshot size"
+      },
+      "free_space": {
+        "name": "Free space"
+      },
+      "home_directory": {
+        "name": "Home directory"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_api_key": {
+      "message": "The Hetzner API rejected the API token: {error}"
+    },
+    "storage_box_not_found": {
+      "message": "Storage box {storage_box_id} not found — deleted, or not accessible with this API token"
+    },
+    "api_error": {
+      "message": "The Hetzner API returned an error: {error}"
+    },
+    "cannot_connect": {
+      "message": "Could not connect to the Hetzner API: {error}"
+    }
+  },
+  "issues": {
+    "storage_box_not_found": {
+      "title": "Storage box {storage_box_id} not found",
+      "description": "The Hetzner API reports storage box {storage_box_id} as not found — deleted, or not accessible with this API token. Home Assistant keeps retrying and removes this message once the box can be read again.\n\nIf the storage box was deleted, delete this integration entry. If it belongs to another project than the API token, select Reconfigure in the menu of this integration entry and enter an API token of that project."
     }
   }
 }
